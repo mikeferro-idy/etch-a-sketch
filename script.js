@@ -1,11 +1,12 @@
 function draw (size) {
-    const WINDOW_SIZE = 400;
+    const WINDOW_SIZE = 600;
     const SIZE = size;
     const grid = document.querySelector('.grid');
     for( let i = 0; i < SIZE; ++i){
         const row = document.createElement('div');
         row.classList.add(`row${i}`);
         row.classList.add('pixel');
+        row.classList.add('row');
         grid.appendChild(row);
         
         for ( let j = 0; j < SIZE; ++j){
@@ -22,24 +23,36 @@ function draw (size) {
         }
     }
 }
-
+function clear(){
+    const pixels = document.querySelectorAll('.pixel');
+    pixels.forEach((pixel) => {
+        pixel.style.background = 'white';
+    })
+}
+function resize(size){
+    const grid = document.querySelector('.grid');
+    const rows = document.querySelectorAll('.row');
+    rows.forEach((row) => {
+        grid.removeChild(row);
+    })
+    draw(size);
+}
+function randomColor(){
+    let num = Math.floor(Math.random()*16777215).toString(16);
+    return num;
+}
 
 draw(10);
 const grid = document.querySelector('.grid');
 grid.addEventListener('mouseover', function(e) {
     e.target.style.background = 'black';
-    
 });
+
 const clearBtn = document.querySelector('.clearBtn');
-clearBtn.addEventListener('click', function(e) {
-    const pixels = document.querySelectorAll('.pixel');
-    pixels.forEach((pixel) => {
-        pixel.style.background = 'white';
-    })
+clearBtn.addEventListener('click', clear);
+
 const resizeBtn = document.querySelector('.resizeBtn');
-resizeBtn.addEventListener('click', function(e){
-    pixels.forEach((pixel) => {
-        pixel.style.background = 'white';
-    })
-})
+resizeBtn.addEventListener('click', () => {
+    let size = prompt("New window size");
+    resize(size); 
 });
